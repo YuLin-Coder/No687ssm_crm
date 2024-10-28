@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ScheduleDAO">
+	<resultMap type="schedule" id="scheduleMap">
+		<id property="scheduleid" column="scheduleid" />
+		<result property="schedulename" column="schedulename" />
+		<result property="details" column="details" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSchedule" parameterType="schedule">
+		insert into schedule(scheduleid , schedulename , details )
+		values(#{scheduleid} , #{schedulename} , #{details} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSchedule" parameterType="schedule">
+		update schedule set schedulename=#{schedulename} , details=#{details} where
+		scheduleid=#{scheduleid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSchedule" parameterType="String">
+		delete from schedule where scheduleid = #{scheduleid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSchedule" resultMap="scheduleMap">
+		select a.* from schedule a where 1=1 order by scheduleid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getScheduleById" parameterType="String" resultMap="scheduleMap">
+		select a.* from schedule a where 1=1 and scheduleid=#{scheduleid}
+		order by scheduleid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getScheduleByCond" parameterType="schedule"
+		resultMap="scheduleMap">
+		select a.* from schedule a where 1=1
+		<if test="schedulename != null and '' != schedulename">
+			and a.schedulename = #{schedulename}
+		</if>
+		<if test="details != null and '' != details">
+			and a.details = #{details}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getScheduleByLike" parameterType="schedule"
+		resultMap="scheduleMap">
+		select a.* from schedule a where 1=1
+		<if test="schedulename != null and '' != schedulename">
+			and a.schedulename like CONCAT('%', CONCAT(#{schedulename}, '%'))
+		</if>
+		<if test="details != null and '' != details">
+			and a.details like CONCAT('%', CONCAT(#{details}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

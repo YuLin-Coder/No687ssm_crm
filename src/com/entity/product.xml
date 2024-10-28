@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ProductDAO">
+	<resultMap type="product" id="productMap">
+		<id property="productid" column="productid" />
+		<result property="procateid" column="procateid" />
+		<result property="productname" column="productname" />
+		<result property="details" column="details" />
+		<result property="price" column="price" />
+		<result property="inventory" column="inventory" />
+		<result property="num" column="num" />
+		<result property="memo" column="memo" />
+		<result property="procatename" column="procatename" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertProduct" parameterType="product">
+		insert into product(productid , procateid , productname , details , price ,
+		inventory , num , memo ) values(#{productid} , #{procateid} ,
+		#{productname} , #{details} , #{price} , #{inventory} , #{num} ,
+		#{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateProduct" parameterType="product">
+		update product set procateid=#{procateid} , productname=#{productname} ,
+		details=#{details} , price=#{price} , inventory=#{inventory} ,
+		num=#{num} , memo=#{memo} where productid=#{productid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteProduct" parameterType="String">
+		delete from product where productid = #{productid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllProduct" resultMap="productMap">
+		select a.* , b.procatename from product a , procate b where 1=1 and
+		a.procateid = b.procateid order by productid
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getProductById" parameterType="String" resultMap="productMap">
+		select a.* , b.procatename from product a , procate b where 1=1 and
+		a.procateid = b.procateid and productid=#{productid} order by
+		productid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getProductByCond" parameterType="product" resultMap="productMap">
+		select a.* , b.procatename from product a , procate b where 1=1 and
+		a.procateid = b.procateid
+		<if test="procateid != null and '' != procateid">
+			and a.procateid = #{procateid}
+		</if>
+		<if test="productname != null and '' != productname">
+			and a.productname = #{productname}
+		</if>
+		<if test="details != null and '' != details">
+			and a.details = #{details}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="inventory != null and '' != inventory">
+			and a.inventory = #{inventory}
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getProductByLike" parameterType="product" resultMap="productMap">
+		select a.* , b.procatename from product a , procate b where 1=1 and
+		a.procateid = b.procateid
+		<if test="procateid != null and '' != procateid">
+			and a.procateid like CONCAT('%', CONCAT(#{procateid}, '%'))
+		</if>
+		<if test="productname != null and '' != productname">
+			and a.productname like CONCAT('%', CONCAT(#{productname}, '%'))
+		</if>
+		<if test="details != null and '' != details">
+			and a.details like CONCAT('%', CONCAT(#{details}, '%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="inventory != null and '' != inventory">
+			and a.inventory like CONCAT('%', CONCAT(#{inventory}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

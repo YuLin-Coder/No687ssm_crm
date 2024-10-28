@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.CustomerDAO">
+	<resultMap type="customer" id="customerMap">
+		<id property="customerid" column="customerid" />
+		<result property="realname" column="realname" />
+		<result property="nickname" column="nickname" />
+		<result property="tel" column="tel" />
+		<result property="qq" column="qq" />
+		<result property="wechat" column="wechat" />
+		<result property="sex" column="sex" />
+		<result property="birthday" column="birthday" />
+		<result property="soureid" column="soureid" />
+		<result property="addtime" column="addtime" />
+		<result property="adminid" column="adminid" />
+		<result property="integral" column="integral" />
+		<result property="ranksid" column="ranksid" />
+		<result property="ranksname" column="ranksname" />
+		<result property="scheduleid" column="scheduleid" />
+		<result property="schedulename" column="schedulename" />
+		<result property="plan" column="plan" />
+		<result property="memo" column="memo" />
+		<result property="sourename" column="sourename" />
+		<result property="username" column="username" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertCustomer" parameterType="customer">
+		insert into customer
+		(customerid , realname , nickname , sex , birthday , tel , qq , wechat
+		, soureid , addtime ,
+		adminid , integral , ranksid , scheduleid , plan
+		, memo) values
+		(#{customerid} , #{realname} , #{nickname} , #{sex} ,
+		#{birthday} , #{tel} , #{qq} , #{wechat} , #{soureid} , #{addtime} ,
+		#{adminid} , #{integral} , #{ranksid} , #{scheduleid} , #{plan} ,
+		#{memo})
+
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateCustomer" parameterType="customer">
+		update customer set
+		realname = #{realname} , nickname = #{nickname} , sex = #{sex} ,
+		birthday = #{birthday} ,
+		tel = #{tel} , qq = #{qq} , wechat = #{wechat}
+		, soureid = #{soureid} , addtime = #{addtime} ,
+		adminid = #{adminid} ,
+		integral = #{integral} , ranksid = #{ranksid} ,
+		scheduleid =
+		#{scheduleid} , plan = #{plan}, memo = #{memo}
+		where customerid =
+		#{customerid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteCustomer" parameterType="String">
+		delete from customer
+		where customerid = #{customerid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllCustomer" resultMap="customerMap">
+		select a.* , b.sourename ,
+		c.username , d.ranksname , e.schedulename
+		from customer a , soure b , admin c , ranks d , schedule e
+		where 1=1 and a.soureid = b.soureid and a.adminid = c.adminid and
+		a.ranksid
+		= d.ranksid and a.scheduleid = e.scheduleid
+		order by customerid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getCustomerById" parameterType="String" resultMap="customerMap">
+		select a.* , b.sourename , c.username , d.ranksname , e.schedulename
+		from customer a , soure b , admin c , ranks d , schedule e
+		where 1=1 and a.soureid = b.soureid and a.adminid = c.adminid and
+		a.ranksid
+		= d.ranksid and a.scheduleid = e.scheduleid
+		and customerid = #{customerid}
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getCustomerByCond" parameterType="customer"
+		resultMap="customerMap">
+		select a.* , b.sourename , c.username , d.ranksname , e.schedulename
+		from customer a , soure b , admin c , ranks d , schedule e
+		where 1=1 and a.soureid = b.soureid and a.adminid = c.adminid and
+		a.ranksid
+		= d.ranksid and a.scheduleid = e.scheduleid
+		<if test="realname != null and '' != realname">
+			and a.realname = #{realname}
+		</if>
+		<if test="nickname != null and '' != nickname">
+			and a.nickname = #{nickname}
+		</if>
+		<if test="tel != null and '' != tel">
+			and a.tel = #{tel}
+		</if>
+		<if test="qq != null and '' != qq">
+			and a.qq = #{qq}
+		</if>
+		<if test="wechat != null and '' != wechat">
+			and a.wechat = #{wechat}
+		</if>
+		<if test="sex != null and '' != sex">
+			and a.sex = #{sex}
+		</if>
+		<if test="birthday != null and '' != birthday">
+			and a.birthday = #{birthday}
+		</if>
+		<if test="custypeid != null and '' != custypeid">
+			and a.custypeid = #{custypeid}
+		</if>
+		<if test="soureid != null and '' != soureid">
+			and a.soureid = #{soureid}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid = #{adminid}
+		</if>
+		<if test="expenseid != null and '' != expenseid">
+			and a.expenseid = #{expenseid}
+		</if>
+		<if test="integral != null and '' != integral">
+			and a.integral = #{integral}
+		</if>
+		<if test="ranksid != null and '' != ranksid">
+			and a.ranksid = #{ranksid}
+		</if>
+		<if test="scheduleid != null and '' != scheduleid">
+			and a.scheduleid = #{scheduleid}
+		</if>
+		<if test="plan != null and '' != plan">
+			and a.plan = #{plan}
+		</if>
+		<if test="serveid != null and '' != serveid">
+			and a.serveid = #{serveid}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getCustomerByLike" parameterType="customer"
+		resultMap="customerMap">
+		select a.* , b.sourename , c.username , d.ranksname , e.schedulename
+		from customer a , soure b , admin c , ranks d , schedule e
+		where 1=1 and a.soureid = b.soureid and a.adminid = c.adminid and
+		a.ranksid
+		= d.ranksid and a.scheduleid = e.scheduleid
+		<if test="realname != null and '' != realname">
+			and a.realname like CONCAT('%', CONCAT(#{realname}, '%'))
+		</if>
+		<if test="nickname != null and '' != nickname">
+			and a.nickname like CONCAT('%', CONCAT(#{nickname}, '%'))
+		</if>
+		<if test="tel != null and '' != tel">
+			and a.tel like CONCAT('%', CONCAT(#{tel}, '%'))
+		</if>
+		<if test="qq != null and '' != qq">
+			and a.qq like CONCAT('%', CONCAT(#{qq}, '%'))
+		</if>
+		<if test="wechat != null and '' != wechat">
+			and a.wechat like CONCAT('%', CONCAT(#{wechat}, '%'))
+		</if>
+		<if test="sex != null and '' != sex">
+			and a.sex like CONCAT('%', CONCAT(#{sex}, '%'))
+		</if>
+		<if test="birthday != null and '' != birthday">
+			and a.birthday like CONCAT('%', CONCAT(#{birthday}, '%'))
+		</if>
+		<if test="custypeid != null and '' != custypeid">
+			and a.custypeid like CONCAT('%', CONCAT(#{custypeid},
+			'%'))
+		</if>
+		<if test="soureid != null and '' != soureid">
+			and a.soureid like CONCAT('%', CONCAT(#{soureid}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid like CONCAT('%', CONCAT(#{adminid}, '%'))
+		</if>
+		<if test="expenseid != null and '' != expenseid">
+			and a.expenseid like CONCAT('%', CONCAT(#{expenseid},
+			'%'))
+		</if>
+		<if test="integral != null and '' != integral">
+			and a.integral like CONCAT('%', CONCAT(#{integral}, '%'))
+		</if>
+		<if test="ranksid != null and '' != ranksid">
+			and a.ranksid like CONCAT('%', CONCAT(#{ranksid}, '%'))
+		</if>
+		<if test="scheduleid != null and '' != scheduleid">
+			and a.scheduleid like CONCAT('%', CONCAT(#{scheduleid},
+			'%'))
+		</if>
+		<if test="plan != null and '' != plan">
+			and a.plan like CONCAT('%', CONCAT(#{plan}, '%'))
+		</if>
+		<if test="serveid != null and '' != serveid">
+			and a.serveid like CONCAT('%', CONCAT(#{serveid}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

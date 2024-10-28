@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SoureDAO">
+	<resultMap type="soure" id="soureMap">
+		<id property="soureid" column="soureid" />
+		<result property="sourename" column="sourename" />
+		<result property="details" column="details" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSoure" parameterType="soure">
+		insert into soure(soureid , sourename , details ) values(#{soureid} ,
+		#{sourename} , #{details} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSoure" parameterType="soure">
+		update soure set sourename=#{sourename} , details=#{details} where
+		soureid=#{soureid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSoure" parameterType="String">
+		delete from soure where soureid = #{soureid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSoure" resultMap="soureMap">
+		select a.* from soure a where 1=1 order by soureid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getSoureById" parameterType="String" resultMap="soureMap">
+		select a.* from soure a where 1=1 and soureid=#{soureid} order by
+		soureid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getSoureByCond" parameterType="soure" resultMap="soureMap">
+		select a.* from soure a where 1=1
+		<if test="sourename != null and '' != sourename">
+			and a.sourename = #{sourename}
+		</if>
+		<if test="details != null and '' != details">
+			and a.details = #{details}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getSoureByLike" parameterType="soure" resultMap="soureMap">
+		select a.* from soure a where 1=1
+		<if test="sourename != null and '' != sourename">
+			and a.sourename like CONCAT('%', CONCAT(#{sourename}, '%'))
+		</if>
+		<if test="details != null and '' != details">
+			and a.details like CONCAT('%', CONCAT(#{details}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.SercateDAO">
+	<resultMap type="sercate" id="sercateMap">
+		<id property="sercateid" column="sercateid" />
+		<result property="cercatename" column="cercatename" />
+		<result property="details" column="details" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertSercate" parameterType="sercate">
+		insert into sercate(sercateid , cercatename , details ) values(#{sercateid}
+		, #{cercatename} , #{details} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateSercate" parameterType="sercate">
+		update sercate set cercatename=#{cercatename} , details=#{details} where
+		sercateid=#{sercateid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteSercate" parameterType="String">
+		delete from sercate where sercateid = #{sercateid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllSercate" resultMap="sercateMap">
+		select a.* from sercate a where 1=1 order by sercateid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getSercateById" parameterType="String" resultMap="sercateMap">
+		select a.* from sercate a where 1=1 and sercateid=#{sercateid} order
+		by sercateid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getSercateByCond" parameterType="sercate" resultMap="sercateMap">
+		select a.* from sercate a where 1=1
+		<if test="cercatename != null and '' != cercatename">
+			and a.cercatename = #{cercatename}
+		</if>
+		<if test="details != null and '' != details">
+			and a.details = #{details}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getSercateByLike" parameterType="sercate" resultMap="sercateMap">
+		select a.* from sercate a where 1=1
+		<if test="cercatename != null and '' != cercatename">
+			and a.cercatename like CONCAT('%', CONCAT(#{cercatename}, '%'))
+		</if>
+		<if test="details != null and '' != details">
+			and a.details like CONCAT('%', CONCAT(#{details}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

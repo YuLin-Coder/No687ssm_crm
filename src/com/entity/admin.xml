@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.AdminDAO">
+	<resultMap type="admin" id="adminMap">
+		<id property="adminid" column="adminid" />
+		<result property="username" column="username" />
+		<result property="password" column="password" />
+		<result property="realname" column="realname" />
+		<result property="sex" column="sex" />
+		<result property="birthday" column="birthday" />
+		<result property="tel" column="tel" />
+		<result property="qq" column="qq" />
+		<result property="wechat" column="wechat" />
+		<result property="dutyid" column="dutyid" />
+		<result property="addtime" column="addtime" />
+		<result property="dutyname" column="dutyname" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertAdmin" parameterType="admin">
+		insert into admin(adminid , username , password , realname , sex , birthday
+		, tel , qq , wechat , dutyid , addtime ) values(#{adminid} ,
+		#{username} , #{password} , #{realname} , #{sex} , #{birthday} ,
+		#{tel} , #{qq} , #{wechat} , #{dutyid} , #{addtime} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateAdmin" parameterType="admin">
+		update admin set username=#{username} , password=#{password} ,
+		realname=#{realname} , sex=#{sex} , birthday=#{birthday} , tel=#{tel}
+		, qq=#{qq} , wechat=#{wechat} , dutyid=#{dutyid} , addtime=#{addtime}
+		where adminid=#{adminid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteAdmin" parameterType="String">
+		delete from admin where adminid = #{adminid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllAdmin" resultMap="adminMap">
+		select a.* , b.dutyname from admin a , duty b where 1=1 and a.dutyid =
+		b.dutyid order by adminid
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getAdminById" parameterType="String" resultMap="adminMap">
+		select a.* , b.dutyname from admin a , duty b where 1=1 and a.dutyid =
+		b.dutyid and adminid=#{adminid} order by adminid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getAdminByCond" parameterType="admin" resultMap="adminMap">
+		select a.* , b.dutyname from admin a , duty b where 1=1 and a.dutyid =
+		b.dutyid
+		<if test="username != null and '' != username">
+			and a.username = #{username}
+		</if>
+		<if test="password != null and '' != password">
+			and a.password = #{password}
+		</if>
+		<if test="realname != null and '' != realname">
+			and a.realname = #{realname}
+		</if>
+		<if test="sex != null and '' != sex">
+			and a.sex = #{sex}
+		</if>
+		<if test="birthday != null and '' != birthday">
+			and a.birthday = #{birthday}
+		</if>
+		<if test="tel != null and '' != tel">
+			and a.tel = #{tel}
+		</if>
+		<if test="qq != null and '' != qq">
+			and a.qq = #{qq}
+		</if>
+		<if test="wechat != null and '' != wechat">
+			and a.wechat = #{wechat}
+		</if>
+		<if test="dutyid != null and '' != dutyid">
+			and a.dutyid = #{dutyid}
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime = #{addtime}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getAdminByLike" parameterType="admin" resultMap="adminMap">
+		select a.* , b.dutyname from admin a , duty b where 1=1 and a.dutyid =
+		b.dutyid
+		<if test="username != null and '' != username">
+			and a.username like CONCAT('%', CONCAT(#{username}, '%'))
+		</if>
+		<if test="password != null and '' != password">
+			and a.password like CONCAT('%', CONCAT(#{password}, '%'))
+		</if>
+		<if test="realname != null and '' != realname">
+			and a.realname like CONCAT('%', CONCAT(#{realname}, '%'))
+		</if>
+		<if test="sex != null and '' != sex">
+			and a.sex like CONCAT('%', CONCAT(#{sex}, '%'))
+		</if>
+		<if test="birthday != null and '' != birthday">
+			and a.birthday like CONCAT('%', CONCAT(#{birthday}, '%'))
+		</if>
+		<if test="tel != null and '' != tel">
+			and a.tel like CONCAT('%', CONCAT(#{tel}, '%'))
+		</if>
+		<if test="qq != null and '' != qq">
+			and a.qq like CONCAT('%', CONCAT(#{qq}, '%'))
+		</if>
+		<if test="wechat != null and '' != wechat">
+			and a.wechat like CONCAT('%', CONCAT(#{wechat}, '%'))
+		</if>
+		<if test="dutyid != null and '' != dutyid">
+			and a.dutyid like CONCAT('%', CONCAT(#{dutyid}, '%'))
+		</if>
+		<if test="addtime != null and '' != addtime">
+			and a.addtime like CONCAT('%', CONCAT(#{addtime}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

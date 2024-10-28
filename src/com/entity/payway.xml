@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.PaywayDAO">
+	<resultMap type="payway" id="paywayMap">
+		<id property="paywayid" column="paywayid" />
+		<result property="wayname" column="wayname" />
+		<result property="payee" column="payee" />
+		<result property="memo" column="memo" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertPayway" parameterType="payway">
+		insert into payway(paywayid , wayname , payee , memo ) values(#{paywayid} ,
+		#{wayname} , #{payee} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updatePayway" parameterType="payway">
+		update payway set wayname=#{wayname} , payee=#{payee} , memo=#{memo} where
+		paywayid=#{paywayid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deletePayway" parameterType="String">
+		delete from payway where paywayid = #{paywayid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllPayway" resultMap="paywayMap">
+		select a.* from payway a where 1=1 order by paywayid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getPaywayById" parameterType="String" resultMap="paywayMap">
+		select a.* from payway a where 1=1 and paywayid=#{paywayid} order by
+		paywayid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getPaywayByCond" parameterType="payway" resultMap="paywayMap">
+		select a.* from payway a where 1=1
+		<if test="wayname != null and '' != wayname">
+			and a.wayname = #{wayname}
+		</if>
+		<if test="payee != null and '' != payee">
+			and a.payee = #{payee}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getPaywayByLike" parameterType="payway" resultMap="paywayMap">
+		select a.* from payway a where 1=1
+		<if test="wayname != null and '' != wayname">
+			and a.wayname like CONCAT('%', CONCAT(#{wayname}, '%'))
+		</if>
+		<if test="payee != null and '' != payee">
+			and a.payee like CONCAT('%', CONCAT(#{payee}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

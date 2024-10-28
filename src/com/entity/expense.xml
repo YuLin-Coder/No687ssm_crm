@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ExpenseDAO">
+	<resultMap type="expense" id="expenseMap">
+		<id property="expenseid" column="expenseid" />
+		<result property="adminid" column="adminid" />
+		<result property="username" column="username" />
+		<result property="customerid" column="customerid" />
+		<result property="productid" column="productid" />
+		<result property="productname" column="productname" />
+		<result property="realname" column="realname" />
+		<result property="price" column="price" />
+		<result property="num" column="num" />
+		<result property="paywayid" column="paywayid" />
+		<result property="wayname" column="wayname" />
+		<result property="memo" column="memo" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertExpense" parameterType="expense">
+		insert into
+		expense(expenseid , adminid , customerid , productid , price , num ,
+		paywayid , memo )
+		values(#{expenseid} , #{adminid} , #{customerid} , #{productid} , #{price} , #{num} ,
+		#{paywayid} , #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateExpense" parameterType="expense">
+		update expense set
+		adminid = #{adminid} , customerid = #{customerid} , productid =
+		#{productid} , price = #{price} ,
+		num = #{num} , paywayid = #{paywayid} , memo = #{memo}
+		where expenseid=#{expenseid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteExpense" parameterType="String">
+		delete from expense
+		where expenseid = #{expenseid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllExpense" resultMap="expenseMap">
+		select a.* , b.username ,
+		c.realname , d.wayname , e.productname
+		from expense a , admin b ,
+		customer c , payway d , product e
+		where 1=1 and a.adminid = b.adminid
+		and a.customerid = c.customerid
+		and a.paywayid = d.paywayid and a.productid = e.productid
+		order by
+		expenseid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getExpenseById" parameterType="String" resultMap="expenseMap">
+		select a.* , b.username , c.realname , d.wayname , e.productname
+		from
+		expense a , admin b , customer c , payway d , product e
+		where 1=1 and
+		a.adminid = b.adminid and a.customerid = c.customerid
+		and a.paywayid = d.paywayid and a.productid = e.productid and
+		expenseid=#{expenseid} order by expenseid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getExpenseByCond" parameterType="expense" resultMap="expenseMap">
+		select a.* , b.username , c.realname , d.wayname , e.productname
+		from
+		expense a , admin b , customer c , payway d , product e
+		where 1=1 and
+		a.adminid = b.adminid and a.customerid = c.customerid
+		and a.paywayid = d.paywayid and a.productid = e.productid
+		<if test="adminid != null and '' != adminid">
+			and a.adminid = #{adminid}
+		</if>
+		<if test="customerid != null and '' != customerid">
+			and a.customerid = #{customerid}
+		</if>
+		<if test="price != null and '' != price">
+			and a.price = #{price}
+		</if>
+		<if test="num != null and '' != num">
+			and a.num = #{num}
+		</if>
+		<if test="paywayid != null and '' != paywayid">
+			and a.paywayid = #{paywayid}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getExpenseByLike" parameterType="expense" resultMap="expenseMap">
+		select a.* , b.username , c.realname , d.wayname , e.productname
+		from
+		expense a , admin b , customer c , payway d , product e
+		where 1=1 and
+		a.adminid = b.adminid and a.customerid = c.customerid
+		and a.paywayid = d.paywayid and a.productid = e.productid
+		<if test="adminid != null and '' != adminid">
+			and a.adminid like CONCAT('%', CONCAT(#{adminid}, '%'))
+		</if>
+		<if test="customerid != null and '' != customerid">
+			and a.customerid like CONCAT('%', CONCAT(#{customerid},
+			'%'))
+		</if>
+		<if test="price != null and '' != price">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="num != null and '' != num">
+			and a.num like CONCAT('%', CONCAT(#{num}, '%'))
+		</if>
+		<if test="paywayid != null and '' != paywayid">
+			and a.price like CONCAT('%', CONCAT(#{price}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

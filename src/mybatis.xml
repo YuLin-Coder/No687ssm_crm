@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>
+		<typeAlias alias="soure" type="com.entity.Soure" />
+		<typeAlias alias="expense" type="com.entity.Expense" />
+		<typeAlias alias="payway" type="com.entity.Payway" />
+		<typeAlias alias="procate" type="com.entity.Procate" />
+		<typeAlias alias="duty" type="com.entity.Duty" />
+		<typeAlias alias="sercate" type="com.entity.Sercate" />
+		<typeAlias alias="admin" type="com.entity.Admin" />
+		<typeAlias alias="customer" type="com.entity.Customer" />
+		<typeAlias alias="product" type="com.entity.Product" />
+		<typeAlias alias="serve" type="com.entity.Serve" />
+		<typeAlias alias="ranks" type="com.entity.Ranks" />
+		<typeAlias alias="schedule" type="com.entity.Schedule" />
+	</typeAliases>
+	<mappers>
+		<mapper resource="com/entity/soure.xml" />
+		<mapper resource="com/entity/expense.xml" />
+		<mapper resource="com/entity/payway.xml" />
+		<mapper resource="com/entity/procate.xml" />
+		<mapper resource="com/entity/duty.xml" />
+		<mapper resource="com/entity/sercate.xml" />
+		<mapper resource="com/entity/admin.xml" />
+		<mapper resource="com/entity/customer.xml" />
+		<mapper resource="com/entity/product.xml" />
+		<mapper resource="com/entity/serve.xml" />
+		<mapper resource="com/entity/ranks.xml" />
+		<mapper resource="com/entity/schedule.xml" />
+	</mappers>
+</configuration>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

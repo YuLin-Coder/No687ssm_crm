@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.RanksDAO">
+	<resultMap type="ranks" id="ranksMap">
+		<id property="ranksid" column="ranksid" />
+		<result property="ranksname" column="ranksname" />
+		<result property="details" column="details" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertRanks" parameterType="ranks">
+		insert into ranks(ranksid , ranksname , details ) values(#{ranksid} ,
+		#{ranksname} , #{details} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateRanks" parameterType="ranks">
+		update ranks set ranksname=#{ranksname} , details=#{details} where
+		ranksid=#{ranksid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteRanks" parameterType="String">
+		delete from ranks where ranksid = #{ranksid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllRanks" resultMap="ranksMap">
+		select a.* from ranks a where 1=1 order by ranksid desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getRanksById" parameterType="String" resultMap="ranksMap">
+		select a.* from ranks a where 1=1 and ranksid=#{ranksid} order by
+		ranksid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getRanksByCond" parameterType="ranks" resultMap="ranksMap">
+		select a.* from ranks a where 1=1
+		<if test="ranksname != null and '' != ranksname">
+			and a.ranksname = #{ranksname}
+		</if>
+		<if test="details != null and '' != details">
+			and a.details = #{details}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getRanksByLike" parameterType="ranks" resultMap="ranksMap">
+		select a.* from ranks a where 1=1
+		<if test="ranksname != null and '' != ranksname">
+			and a.ranksname like CONCAT('%', CONCAT(#{ranksname}, '%'))
+		</if>
+		<if test="details != null and '' != details">
+			and a.details like CONCAT('%', CONCAT(#{details}, '%'))
+		</if>
+	</select>
+</mapper>
+
+

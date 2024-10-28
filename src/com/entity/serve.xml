@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- 配置Mabatis映射文件 -->
+<mapper namespace="com.dao.ServeDAO">
+	<resultMap type="serve" id="serveMap">
+		<id property="serveid" column="serveid" />
+		<result property="sercateid" column="sercateid" />
+		<result property="productid" column="productid" />
+		<result property="customerid" column="customerid" />
+		<result property="adminid" column="adminid" />
+		<result property="content" column="content" />
+		<result property="conclusion" column="conclusion" />
+		<result property="memo" column="memo" />
+		<result property="cercatename" column="cercatename" />
+		<result property="productname" column="productname" />
+		<result property="realname" column="realname" />
+		<result property="username" column="username" />
+	</resultMap>
+	<!-- 插入语句 DAO通过id调用此配置 -->
+	<insert id="insertServe" parameterType="serve">
+		insert into serve(serveid , sercateid , productid , customerid , adminid ,
+		content , conclusion , memo ) values(#{serveid} , #{sercateid} ,
+		#{productid} , #{customerid} , #{adminid} , #{content} , #{conclusion}
+		, #{memo} )
+	</insert>
+	<!-- 更新语句 DAO通过id调用此配置 -->
+	<update id="updateServe" parameterType="serve">
+		update serve set sercateid=#{sercateid} , productid=#{productid} ,
+		customerid=#{customerid} , adminid=#{adminid} , content=#{content} ,
+		conclusion=#{conclusion} , memo=#{memo} where serveid=#{serveid}
+	</update>
+	<!-- 按主键删除 DAO通过id调用此配置 -->
+	<delete id="deleteServe" parameterType="String">
+		delete from serve where serveid = #{serveid}
+	</delete>
+	<!-- 查询全部信息 DAO通过id调用此配置 -->
+	<select id="getAllServe" resultMap="serveMap">
+		select a.* , b.cercatename , c.productname , d.realname , e.username from
+		serve a , sercate b , product c , customer d , admin e where 1=1 and
+		a.sercateid = b.sercateid and a.productid = c.productid and
+		a.customerid = d.customerid and a.adminid = e.adminid order by serveid
+		desc
+	</select>
+	<!-- 按主键查询 DAO通过id调用此配置 -->
+	<select id="getServeById" parameterType="String" resultMap="serveMap">
+		select a.* , b.cercatename , c.productname , d.realname , e.username
+		from serve a , sercate b , product c , customer d , admin e where 1=1
+		and a.sercateid = b.sercateid and a.productid = c.productid and
+		a.customerid = d.customerid and a.adminid = e.adminid and
+		serveid=#{serveid} order by serveid desc
+	</select>
+	<!-- 按条件精确查询 DAO通过id调用此配置 -->
+	<select id="getServeByCond" parameterType="serve" resultMap="serveMap">
+		select a.* , b.cercatename , c.productname , d.realname , e.username
+		from serve a , sercate b , product c , customer d , admin e where 1=1
+		and a.sercateid = b.sercateid and a.productid = c.productid and
+		a.customerid = d.customerid and a.adminid = e.adminid
+		<if test="sercateid != null and '' != sercateid">
+			and a.sercateid = #{sercateid}
+		</if>
+		<if test="productid != null and '' != productid">
+			and a.productid = #{productid}
+		</if>
+		<if test="customerid != null and '' != customerid">
+			and a.customerid = #{customerid}
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid = #{adminid}
+		</if>
+		<if test="content != null and '' != content">
+			and a.content = #{content}
+		</if>
+		<if test="conclusion != null and '' != conclusion">
+			and a.conclusion = #{conclusion}
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo = #{memo}
+		</if>
+	</select>
+	<!-- 按条件模糊查询 DAO通过id调用此配置 -->
+	<select id="getServeByLike" parameterType="serve" resultMap="serveMap">
+		select a.* , b.cercatename , c.productname , d.realname , e.username
+		from serve a , sercate b , product c , customer d , admin e where 1=1
+		and a.sercateid = b.sercateid and a.productid = c.productid and
+		a.customerid = d.customerid and a.adminid = e.adminid
+		<if test="sercateid != null and '' != sercateid">
+			and a.sercateid like CONCAT('%', CONCAT(#{sercateid}, '%'))
+		</if>
+		<if test="productid != null and '' != productid">
+			and a.productid like CONCAT('%', CONCAT(#{productid}, '%'))
+		</if>
+		<if test="customerid != null and '' != customerid">
+			and a.customerid like CONCAT('%', CONCAT(#{customerid}, '%'))
+		</if>
+		<if test="adminid != null and '' != adminid">
+			and a.adminid like CONCAT('%', CONCAT(#{adminid}, '%'))
+		</if>
+		<if test="content != null and '' != content">
+			and a.content like CONCAT('%', CONCAT(#{content}, '%'))
+		</if>
+		<if test="conclusion != null and '' != conclusion">
+			and a.conclusion like CONCAT('%', CONCAT(#{conclusion}, '%'))
+		</if>
+		<if test="memo != null and '' != memo">
+			and a.memo like CONCAT('%', CONCAT(#{memo}, '%'))
+		</if>
+	</select>
+</mapper>
+
+
